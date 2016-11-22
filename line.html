@@ -1,0 +1,47 @@
+<html>
+<body>
+<canvas id='lab1' height='1000' width='1000'>
+<script>
+	var canvas=document.getElementById('lab1');
+	var ctx=canvas.getContext('2d');
+	var x,y;
+  
+		function drawLine(x1,y1,x2,y2){
+			var deltaX = Math.abs(x2 - x1);
+			var deltaY = Math.abs(y2 - y1);
+			var signX = (x1 < x2 ? 1 : -1);
+			var signY = (y1 < y2 ? 1 : -1);
+			var error = deltaX - deltaY;
+			//
+			ctx.fillRect(x2, y2,1,1);
+      
+			while(x1 != x2 || y1 != y2) 
+			{
+				ctx.fillRect(x1, y1,1,1);
+				var error2 = error * 2;
+				if(error2 > -deltaY) 
+				{
+					error -= deltaY;
+					x1 += signX;
+				}
+				if(error2 < deltaX) 
+				{
+					error += deltaX;
+					y1 += signY;
+				}
+			}
+		}
+    
+		canvas.onmousedown = function(event) {
+			x = event.offsetX;
+			y = event.offsetY;
+		}
+    
+		canvas.onmouseup = function(event) {
+			x1 = event.offsetX;
+			y1 = event.offsetY;
+			drawLine(x,y,x1,y1);
+		}
+</script>
+</body>
+<html>
