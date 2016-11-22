@@ -1,0 +1,47 @@
+<html>
+<body>
+<canvas id='lab1' height='1000' width='1000'>
+<script>
+	var canvas=document.getElementById('lab1');
+	var ctx=canvas.getContext('2d');
+	var x,y;
+		function drawCircle(x0,y0,radius){
+			var x = 0;
+			var y = radius;
+			var delta = 1 - 2 * radius;
+			var error = 0;
+			while(y >= 0) {
+				ctx.fillRect(x0 + x, y0 + y,1,1);
+				ctx.fillRect(x0 + x, y0 - y,1,1);
+				ctx.fillRect(x0 - x, y0 + y,1,1);
+				ctx.fillRect(x0 - x, y0 - y,1,1);
+				error = 2 * (delta + y) - 1;
+				if(delta < 0 && error <= 0) {
+					++x;
+					delta += 2 * x + 1;
+					continue;
+				}
+				error = 2 * (delta - x) - 1;
+				if(delta > 0 && error > 0) {
+					--y;
+					delta += 1 - 2 * y;
+					continue;
+				}
+				++x;
+				delta += 2 * (x - y);
+				--y;
+			}
+		}
+		canvas.onmousedown = function(event) {
+			x = event.offsetX;
+			y = event.offsetY;
+		}
+		canvas.onmouseup = function(event) {
+			x1 = event.offsetX;
+			y1 = event.offsetY;
+			rad = Math.sqrt((x1-x)*(x1-x)+(y1-y)*(y1-y));
+			drawCircle(x,y,rad);
+		}
+</script>
+</body>
+<html>
